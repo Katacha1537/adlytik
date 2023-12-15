@@ -6,19 +6,27 @@ import { GoProject, GoPeople } from "react-icons/go"
 import { TbPlugConnected } from "react-icons/tb";
 import { RiSettings3Line } from "react-icons/ri";
 import DropDownProjects from './DropDownProjects';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import AvatarDropDown from './AvatarDropDown';
 
 
 const MenuItem = ({ icon, label, href }) => {
     const navigate = useNavigate();
+    const location = useLocation()
 
     const handlePages = (hr) => {
         navigate(hr);
     };
 
+    const isActive = location.pathname === href
+
     return (
-        <div onClick={() => handlePages(href)} className="flex items-center gap-3 mb-2 p-2 rounded-md hover:text-foreground-50 hover:bg-purple-500 cursor-pointer transition-colors">
+        <div
+            onClick={() =>
+                handlePages(href)}
+            className={`flex items-center gap-3 mb-2 p-2 rounded-md cursor-pointer transition-colors 
+            ${isActive ? 'bg-purple-500 text-foreground-50' : 'hover:bg-purple-500 hover:text-foreground-50'}`}
+        >
             {icon}
             <p>{label}</p>
         </div>
