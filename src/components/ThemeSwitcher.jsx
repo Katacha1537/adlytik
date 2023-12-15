@@ -19,15 +19,18 @@ export function ThemeSwitcher() {
     };
 
     return (
-        <Switch
-            checked={theme === 'dark'}
-            onChange={(e) => toggleTheme(e.target.checked)}
-            size="lg"
-            color="secondary"
-            startContent={<FaMoon />} // Icone para o modo escuro
-            endContent={<FaSun />} // Icone para o modo claro
-        >
-            {theme === 'dark' ? 'Modo Escuro' : 'Modo Claro'}
-        </Switch>
+        <div className="flex gap-4 items-center">
+            <p className="font-medium text-sm">Escolher Tema:</p>
+            <Switch
+                checked={theme === 'dark'}
+                onChange={(e) => toggleTheme(e.target.checked)}
+                size="lg"
+                color="secondary"
+                startContent={<FaMoon />} // Icone para o modo escuro
+                endContent={<FaSun />} // Icone para o modo claro
+            >
+                {/*theme === 'dark' ? 'Modo Escuro' : 'Modo Claro'*/}
+            </Switch>
+        </div>
     );
 }

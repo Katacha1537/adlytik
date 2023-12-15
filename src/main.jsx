@@ -8,7 +8,7 @@ import './index.css'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <NextUIProvider>
-      <NextThemesProvider attribute="class" defaultTheme="dark">
+      <NextThemesProvider>
         <App />
       </NextThemesProvider>
     </NextUIProvider>
