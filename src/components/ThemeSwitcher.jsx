@@ -20,7 +20,6 @@ export function ThemeSwitcher() {
 
     return (
         <div className="flex gap-4 items-center">
-            <p className="font-medium text-sm">Escolher Tema:</p>
             <Switch
                 checked={theme === 'dark'}
                 onChange={(e) => toggleTheme(e.target.checked)}

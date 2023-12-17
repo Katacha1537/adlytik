@@ -1,0 +1,21 @@
+.my-calendar-container .react-calendar {
+    width: 100%;
+    max-width: 100%;
+    /* Ajuste o máximo conforme necessário */
+}
+
+/* MyCalendar.css */
+.square-container {
+    position: relative;
+    width: 100%;
+    /* Largura total do contêiner */
+}
+
+.my-calendar-container .react-calendar .react-calendar__tile:hover {
+    background-color: #AE7EDE;
+    color:azure;
+}
+
+.my-calendar-container.dark .react-calendar .react-calendar__tile:hover {
+    background-color: #AE7EDE;
+}
