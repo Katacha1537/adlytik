@@ -13,11 +13,23 @@ const columns = [
 const tasks = [
     { id: 1, nameTask: "Desenvolvimento Frontend", description: "Criar a interface do usuário", status: "Em andamento", priority: "Alta", responsible: "João Silva" },
     { id: 2, nameTask: "Testes de Backend", description: "Implementar testes unitários", status: "Pendente", priority: "Média", responsible: "Maria Santos" },
-    { id: 3, nameTask: "Design do Produto", description: "Desenhar novas telas", status: "Concluído", priority: "Baixa", responsible: "Ana Pereira" },
+    { id: 3, nameTask: "Design do Produto", description: "Desenhar novas telas", status: "Finalizado", priority: "Baixa", responsible: "Ana Pereira" },
     { id: 4, nameTask: "Revisão de Código", description: "Revisar o código da nova funcionalidade", status: "Em andamento", priority: "Alta", responsible: "Carlos Magno" },
     { id: 5, nameTask: "Documentação Técnica", description: "Elaborar documentação do projeto", status: "Pendente", priority: "Média", responsible: "Roberta Dias" }
     // Adicione mais tarefas conforme necessário
 ];
+
+const statusColorMap = {
+    "A Fazer": "default", // Cor padrão para "A Fazer"
+    "Em andamento": "primary", // Azul para "Em andamento"
+    "Finalizado": "success" // Verde para "Finalizado"
+};
+
+const priorityColorMap = {
+    "Baixa": "primary", // Azul ou outra cor que não misture com o status
+    "Média": "warning", // Amarelo para "Média"
+    "Alta": "danger" // Vermelho para "Alta"
+}
 
 const renderCell = (task, columnKey) => {
     const cellValue = task[columnKey];
@@ -29,12 +41,16 @@ const renderCell = (task, columnKey) => {
             return <p>{cellValue}</p>;
         case "status":
             return (
-                <Chip color="success" size="sm" variant="flat">
+                <Chip color={statusColorMap[cellValue] || "default"} size="sm" variant="flat">
                     {cellValue}
                 </Chip>
             );
         case "priority":
-            return <p>{cellValue}</p>;
+            return (
+                <Chip color={priorityColorMap[cellValue] || "default"} size="sm" variant="flat">
+                    {cellValue}
+                </Chip>
+            );
         case "responsible":
             return <p>{cellValue}</p>;
         case "actions":
@@ -64,17 +80,13 @@ const renderCell = (task, columnKey) => {
 
 export default function App() {
 
-    const tableStyle = {
-        border: "none",
-        boxShadow: "none"
-    }
     return (
         <div>
-            <Card>
-                <CardHeader className="no-border-table">
-                    <h2 className="text-lg font-bold">Minhas Tarefas</h2>
+            <Card className="p-4">
+                <CardHeader >
+                    <h4 className="font-bold text-large">Minhas Tarefas</h4>
                 </CardHeader>
-                <Table aria-label="Tabela de tarefas com células customizadas" style={tableStyle}>
+                <Table aria-label="Tabela de tarefas com células customizadas" radius="none" shadow="none">
                     <TableHeader columns={columns}>
                         {column => (
                             <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
@@ -82,7 +94,7 @@ export default function App() {
                             </TableColumn>
                         )}
                     </TableHeader>
-                    <TableBody items={tasks}>
+                    <TableBody items={tasks} >
                         {item => (
                             <TableRow key={item.id}>
                                 {columnKey => <TableCell>{renderCell(item, columnKey)}</TableCell>}

@@ -35,7 +35,7 @@ const MyCalendar = () => {
     }
 
     return (
-        <div className={`my-calendar-container transition-colors duration-300 rounded-lg shadow-lg overflow-hidden flex justify-center `}>
+        <div className={`my-calendar-container transition-colors duration-300 rounded-lg shadow-lg overflow-hidden flex justify-center mb-8`}>
             <div className="square-container">
                 <Calendar
                     value={value}

@@ -1,7 +1,9 @@
 import ChartBarDouble from '../../components/ChartBarDouble';
+import CongratulationsCard from '../../components/CongratulationsCard';
 import Header from '../../components/Header';
 
 import MyCalendar from '../../components/MyCalendar';
+import MyProjectsDashboard from '../../components/MyProjectsDashboard';
 import MyTasks from '../../components/MyTasks';
 export default function Home() {
 
@@ -17,11 +19,12 @@ export default function Home() {
                 </div>
                 <div className="flex gap-6">
                     <div className="w-2/3">
-                        <ChartBarDouble className="mb-4"/>
+                        <ChartBarDouble className="mb-4" />
                         <MyTasks />
                     </div>
                     <div className="w-1/3">
                         <MyCalendar />
+                        <MyProjectsDashboard />
                     </div>
                 </div>
             </div>
