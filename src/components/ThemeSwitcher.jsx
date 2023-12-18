@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { FaMoon, FaSun } from "react-icons/fa";
 
-export function ThemeSwitcher() {
+export function ThemeSwitcher({ props }) {
     const [mounted, setMounted] = useState(false);
     const { theme, setTheme } = useTheme();
 
@@ -19,7 +19,7 @@ export function ThemeSwitcher() {
     };
 
     return (
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center hidden lg:block">
             <Switch
                 checked={theme === 'dark'}
                 onChange={(e) => toggleTheme(e.target.checked)}

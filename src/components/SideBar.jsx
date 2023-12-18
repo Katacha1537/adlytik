@@ -45,10 +45,10 @@ const MenuItem = ({ icon, label, href }) => {
 
 export default function SideBar() {
     return (
-        <div className="fixed z-10 h-screen w-[16%] flex flex-col bg-background border-r-1 border-content3 p-5 pb-2">
+        <div className="hidden lg:flex lg:w-[16%]  fixed z-30 h-screen flex-col bg-background border-r-1 border-content3 p-5 pb-2">
             <h1 className="text-4xl font-bold text-purple-500 mb-3">Ad.Lytik</h1>
 
-            <div className="mt-4">
+            <div className="mt-4 w-full">
                 <DropDownProjects />
             </div>
 

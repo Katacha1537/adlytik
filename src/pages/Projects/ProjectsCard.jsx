@@ -21,7 +21,7 @@ import { MdMoreVert } from 'react-icons/md';
 
 export default function ProjectsCard({ idProject, nameProject, descriptionProject, tasksProject, membersProject }) {
     return (
-        <Card className="flex flex-col w-full max-w-full md:max-w-[48.6%] lg:max-w-[32%] xl:max-w-[32.1%]">
+        <Card className="flex flex-col w-full max-w-full md:max-w-[48.6%] lg:max-w-[32%] 2xl:max-w-[24%]">
             <CardHeader className="flex gap-3">
                 <div className="flex items-center justify-between w-full">
                     <p className="text-md font-bold">{nameProject}</p>
@@ -54,7 +54,7 @@ export default function ProjectsCard({ idProject, nameProject, descriptionProjec
                     }
                 </AvatarGroup>
                 <Button color="secondary">
-                    Entrar no Projeto
+                    Entrar
                 </Button>
                 <Chip
                     startContent={<BiTask size={18} />}

@@ -1,21 +1,23 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, CardFooter, Button } from "@nextui-org/react";
 
+import Throph from '../assets/recompensa.png'
+
 const CongratulationsCard = () => {
   return (
-    <Card className="relative p-4 bg-white shadow-md rounded-lg max-w-sm mx-auto">
-      <CardHeader className="flex flex-col items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Outstanding Achievement</h2>
-        <p className="text-gray-600">Top Performer of the Month</p>
+    <Card className="p-4 bg-content1 shadow-md rounded-lg mb-5">
+      <CardHeader className="flex flex-col">
+        <h2 className="text-2xl font-bold text-foreground">Nova Conquista</h2>
+        <p className="text-foreground-600">Melhor Perfomace da semana</p>
       </CardHeader>
-      <CardBody className="flex justify-center">
-        <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Explore Rewards
+      <CardBody className="flex justify-center items-center">
+        <img src={Throph} className='w-28 mb-4'  />
+        <Button className="bg-purple-500 text-white font-bold py-2 px-4 rounded min-w-[200px]">
+          Explorar
         </Button>
       </CardBody>
-      <div className="absolute bottom-4 right-4">
-        <h2>teste</h2>
-      </div>
+      <CardFooter className="w-full justify-end">
+      </CardFooter>
     </Card>
   );
 };
