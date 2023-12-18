@@ -18,6 +18,10 @@ export default function Header() {
                 return 'Integrações';
             case '/settings':
                 return 'Configurações';
+            case '/feedback':
+                return 'FeedBack';
+            case '/help':
+                return 'Ajuda';
             default:
                 return 'Página';
         }

@@ -8,6 +8,7 @@ import UsersTeam from './pages/UsersTeam/UsersTeam';
 import Integrations from './pages/Integrations/Integrations';
 import Settings from './pages/Settings/Settings';
 import NoIntegrations from './components/NoIntegrations';
+import Header from './components/Header';
 
 
 function App() {
@@ -21,7 +22,8 @@ function App() {
           user ? (
             <div className='flex w-full h-screen'>
               <SideBar />
-              <div className='pl-[16%]'> 
+              <Header />
+              <div className='pl-[16%]'>
                 <Routes>
                   {
                     integration ? (
