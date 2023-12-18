@@ -23,7 +23,7 @@ function App() {
             <div className='flex w-full h-screen'>
               <SideBar />
               <Header />
-              <div className='pl-[16%]'>
+              <div className='pl-[16%] flex-grow'>
                 <Routes>
                   {
                     integration ? (

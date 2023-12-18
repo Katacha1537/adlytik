@@ -19,7 +19,7 @@ export default function AvatarDropDown() {
             </DropdownTrigger>
             <DropdownMenu aria-label="User Actions" variant="flat">
                 <DropdownItem key="team_settings">Perfil</DropdownItem>
-                <DropdownItem key="logout" color="danger">
+                <DropdownItem key="logout" className="text-danger" color="danger">
                     Sair da conta
                 </DropdownItem>
             </DropdownMenu>
