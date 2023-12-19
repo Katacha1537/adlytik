@@ -40,7 +40,7 @@ export default function Header() {
     ]
 
     return (
-        <div className="flex fixed top-0 lg:left-[16%] lg:w-[84%] w-full z-20 justify-between items-center px-4 pr-6 py-4 bg-background border-b-1 border-content3">
+        <div className="flex fixed top-0 lg:left-[16%] lg:w-[84%] w-full z-20 justify-between items-center px-4 pr-6 py-4 bg-background/70 backdrop-blur-sm border-b-1 border-content3">
             <div className='flex gap-3'>
                 <Dropdown >
                     <DropdownTrigger className="lg:hidden">
@@ -66,7 +66,7 @@ export default function Header() {
 
                 {/* Ícones para telas maiores */}
                 <MdNotificationsNone size={28} className="cursor-pointer hidden lg:block" />
-                <ThemeSwitcher className="hidden" />
+                <ThemeSwitcher />
                 <AvatarDropDown />
             </div>
         </div>

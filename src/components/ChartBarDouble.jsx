@@ -32,7 +32,7 @@ export default function ChartBarDouble() {
             },
             background: theme === 'dark' ? '#3333330' : '#fff', // Altera o fundo do gráfico para o tema escuro
         },
-        colors: ['#af23a3', '#24e9a7'], // Altera as cores das barras para o tema escuro
+        colors: ['#9A4FE1', '#24e9a7'], // Altera as cores das barras para o tema escuro
         plotOptions: {
             bar: {
                 borderRadius: 5, // Arredonda as bordas das barras
@@ -101,14 +101,14 @@ export default function ChartBarDouble() {
                     </div>
                     <div className='flex gap-10'>
                         <div className='flex items-center gap-3'>
-                            <div className="w-3 h-3 rounded-lg bg-blue-500"></div>
+                            <div className="w-3 h-3 rounded-lg bg-purple-500"></div>
                             <div>
                                 <p className='font-bold text-xl'>270</p>
                                 <p>Em andamento</p>
                             </div>
                         </div>
                         <div className='flex items-center gap-3'>
-                            <div className="w-3 h-3 rounded-lg bg-green-500"></div>
+                            <div className="w-3 h-3 rounded-lg bg-[#5EE2C0]"></div>
                             <div>
                                 <p className='font-bold text-xl'>113</p>
                                 <p>Finalizadas</p>

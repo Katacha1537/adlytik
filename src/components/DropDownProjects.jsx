@@ -4,13 +4,13 @@ import { GoChevronDown } from "react-icons/go"
 
 export default function DropDownProjects() {
     return (
-        <Dropdown>
+        <Dropdown className="w-full">
             <DropdownTrigger>
                 <Button
                     shadow
                     color="secondary"
                     size="md"
-                    className="items-center"
+                    className="items-center w-full"
                 >
                     Abrir Projetos
                     <GoChevronDown size={24} />

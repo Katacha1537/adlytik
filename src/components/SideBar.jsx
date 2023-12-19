@@ -34,7 +34,7 @@ const MenuItem = ({ icon, label, href }) => {
             onClick={() =>
                 handlePages(href)}
             className={`flex items-center gap-3 mb-2 p-2 rounded-md cursor-pointer transition transform 
-                ${isActive ? isDark === 'dark' ? 'bg-purple-700 text-white' : 'bg-purple-700 text-foreground-50' : isDark === 'dark' ? 'hover:bg-purple-700' : 'hover:bg-purple-700 hover:text-foreground-50'}
+                ${isActive ? isDark === 'dark' ? 'bg-purple-500 text-white' : 'bg-purple-500 text-foreground-50' : isDark === 'dark' ? 'hover:bg-purple-500' : 'hover:bg-purple-500 hover:text-foreground-50'}
                 ${isClicked ? 'scale-95' : 'scale-100'}`}
         >
             {icon}
@@ -59,7 +59,6 @@ export default function SideBar() {
             <div className="flex flex-col  mb-4">
                 <MenuItem href="/" icon={<MdOutlineDashboardCustomize size={24} />} label="Dashboard" />
                 <MenuItem href="/projects" icon={<GoProject size={24} />} label="Projetos" />
-                <MenuItem href="/usersteam" icon={<GoPeople size={24} />} label="Usuários" />
                 <MenuItem href="/integrations" icon={<TbPlugConnected size={24} />} label="Integrações" />
 
             </div>

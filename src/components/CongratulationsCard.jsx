@@ -5,7 +5,7 @@ import Throph from '../assets/recompensa.png'
 
 const CongratulationsCard = () => {
   return (
-    <Card className="p-4 bg-content1 shadow-md rounded-lg mb-5">
+    <Card className="p-4 bg-content1 shadow-md rounded-lg mb-5 border-1 border-content3">
       <CardHeader className="flex flex-col">
         <h2 className="text-2xl font-bold text-foreground">Nova Conquista</h2>
         <p className="text-foreground-600">Melhor Perfomace da semana</p>
