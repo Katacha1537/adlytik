@@ -12,6 +12,7 @@ import AvatarDropDown from './AvatarDropDown';
 import { useTheme } from 'next-themes';
 
 
+
 const MenuItem = ({ icon, label, href }) => {
     const navigate = useNavigate();
     const location = useLocation()
@@ -27,15 +28,24 @@ const MenuItem = ({ icon, label, href }) => {
         }, 150);
     };
 
-    const isActive = location.pathname === href
+    const isActive = (href, pathname) => {
+        // Se o href é a raiz, só retorna true se o pathname também é exatamente a raiz
+        if (href === '/') {
+            return pathname === '/';
+        }
+        // Para outros casos, verifica se o pathname começa com o href
+        return pathname.includes(href);
+    }
+
+    const active = isActive(href, location.pathname)
 
     return (
         <div
             onClick={() =>
                 handlePages(href)}
-            className={`flex items-center gap-3 mb-2 p-2 rounded-md cursor-pointer transition transform 
-                ${isActive ? isDark === 'dark' ? 'bg-purple-500 text-white' : 'bg-purple-500 text-foreground-50' : isDark === 'dark' ? 'hover:bg-purple-500' : 'hover:bg-purple-500 hover:text-foreground-50'}
-                ${isClicked ? 'scale-95' : 'scale-100'}`}
+            className={`flex items-center gap-3 mb-2 p-2 text-sm text-foreground-500 rounded-md cursor-pointer transition transform  
+            ${active ? isDark === 'dark' ? 'bg-purple-500 text-white' : 'bg-purple-100 text-purple-500 font-semibold' : isDark === 'dark' ? 'hover:bg-purple-500 hover:text-white' : 'hover:bg-purple-500 hover:text-white'}
+            ${isClicked ? 'scale-95' : 'scale-100'} `}
         >
             {icon}
             <p>{label}</p>
@@ -63,7 +73,7 @@ export default function SideBar() {
 
             </div>
 
-            <h2 className='font-bold text-foreground mb-2'>FERRAMENTAS</h2>
+            <h2 className='font-bold mb-2'>FERRAMENTAS</h2>
 
             <div className="flex flex-col ">
                 <MenuItem href="/settings" icon={<RiSettings3Line size={24} />} label="Configuração" />

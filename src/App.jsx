@@ -8,6 +8,8 @@ import Integrations from './pages/Integrations/Integrations';
 import Settings from './pages/Settings/Settings';
 import NoIntegrations from './components/NoIntegrations';
 import Header from './components/Header';
+import Help from './pages/Help/Help';
+import Feedback from './pages/Feedback/Feedback';
 
 
 function App() {
@@ -31,8 +33,11 @@ function App() {
                         <Route exact path="/projects" element={<Projects />} />
                         <Route exact path="/integrations" element={<Integrations />} />
                         <Route exact path="/settings" element={<Settings />} />
-                        <Route exact path="/feedback" element={<div className='w-full'>feedback</div>} />
-                        <Route exact path="/help" element={<div className='w-full'>Ajuda</div>} />
+                        <Route exact path="/settings/profile" element={<Settings />} />
+                        <Route exact path="/settings/config" element={<Settings />} />
+                        <Route exact path="/settings/change-password" element={<Settings />} />
+                        <Route exact path="/feedback" element={<Feedback />} />
+                        <Route exact path="/help" element={<Help />} />
                       </>
 
                     ) : (

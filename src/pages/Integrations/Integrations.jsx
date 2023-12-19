@@ -1,104 +1,35 @@
-import React, { useCallback } from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Chip, Tooltip } from "@nextui-org/react";
-import { FaEdit as EditIcon, FaTrashAlt as DeleteIcon, FaEye as EyeIcon } from "react-icons/fa"
 
-const statusColorMap = {
-    connected: "success",
-    disconnected: "danger",
-    pending: "warning",
-};
-
-// Exemplo de colunas para a tabela
-const columns = [
-    { name: "Name", uid: "name" },
-    { name: "Status", uid: "status" },
-    { name: "Actions", uid: "actions" },
-];
-
-// Exemplo de dados de integrações
-const integrations = [
-    {
-        id: 1,
-        name: "Facebook Integration 1",
-        status: "connected",
-        // Adicione mais propriedades conforme necessário
-    },
-    {
-        id: 2,
-        name: "Facebook Integration 2",
-        status: "disconnected",
-        // Adicione mais propriedades conforme necessário
-    },
-    {
-        id: 3,
-        name: "Facebook Integration 3",
-        status: "pending",
-        // Adicione mais propriedades conforme necessário
-    },
-    // ... outras integrações
-];
+import { Button } from "@nextui-org/react"
+import { FaFacebookSquare } from "react-icons/fa";
+import { SiGoogleads, SiGooglesheets } from "react-icons/si";
 
 export default function Integrations() {
-    const renderCell = useCallback((integration, columnKey) => {
-        const cellValue = integration[columnKey];
-
-        switch (columnKey) {
-            case "name":
-                return (
-                    <p className="text-bold text-sm">{cellValue}</p>
-                );
-            case "status":
-                return (
-                    <Chip className="capitalize" color={statusColorMap[integration.status]} size="sm" variant="flat">
-                        {cellValue}
-                    </Chip>
-                );
-            case "actions":
-                return (
-                    <div className="relative flex items-center gap-2">
-                        <Tooltip content="Details">
-                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <EyeIcon />
-                            </span>
-                        </Tooltip>
-                        <Tooltip content="Edit integration">
-                            <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                                <EditIcon />
-                            </span>
-                        </Tooltip>
-                        <Tooltip color="danger" content="Delete integration">
-                            <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                                <DeleteIcon />
-                            </span>
-                        </Tooltip>
-                    </div>
-                );
-            default:
-                return cellValue;
-        }
-    }, []);
-
     return (
-        <div className="mt-20">
+        <div className="mt-20 p-6">
             <div>
-                <h1>Lista de Integrações</h1>
+                <h2 className="text-2xl font-bold">Lista de Integrações</h2>
             </div>
-            <Table aria-label="Example table with integration cells" >
-                <TableHeader columns={columns}>
-                    {(column) => (
-                        <TableColumn key={column.uid} align={column.uid === "actions" ? "center" : "start"}>
-                            {column.name}
-                        </TableColumn>
-                    )}
-                </TableHeader>
-                <TableBody items={integrations}>
-                    {(item) => (
-                        <TableRow key={item.id}>
-                            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
-                        </TableRow>
-                    )}
-                </TableBody>
-            </Table>
+            <div className="flex justify-between w-full mt-4 border-1 border-content3 rounded-md p-2">
+                <div className="flex items-center gap-3">
+                    <FaFacebookSquare size={32} className="text-blue-500" />
+                    <h3 className="font-bold">Facebook</h3>
+                </div>
+                <Button color="secondary" className="w-[150px]">Conectar</Button>
+            </div>
+            <div className="flex justify-between w-full mt-4 border-1 border-content3 rounded-md p-2">
+                <div className="flex items-center gap-3">
+                    <SiGoogleads size={32} className="text-yellow-500 opacity-50" />
+                    <h3 className="font-bold text-foreground-400">Google Ads (em breve)</h3>
+                </div>
+                <Button color="secondary" isDisabled className="w-[150px]">Conectar</Button>
+            </div>
+            <div className="flex justify-between w-full mt-4 border-1 border-content3 rounded-md p-2">
+                <div className="flex items-center gap-3">
+                    <SiGooglesheets size={32} className="text-green-500 opacity-50" />
+                    <h3 className="font-bold text-foreground-400">Google Sheet (em breve)</h3>
+                </div>
+                <Button color="secondary" isDisabled className="w-[150px]">Conectar</Button>
+            </div>
         </div>
     );
 }
