@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { Divider } from '@nextui-org/react';
-import { ThemeSwitcher } from './ThemeSwitcher';
-import { MdOutlineDashboardCustomize, MdOutlineLiveHelp } from 'react-icons/md';
-import { GoProject, GoPeople } from "react-icons/go"
-import { TbPlugConnected } from "react-icons/tb";
-import { RiSettings3Line } from "react-icons/ri";
+import { MdOutlineDashboardCustomize, MdOutlineCampaign, MdOutlineReport } from 'react-icons/md'
+import { BsFillGridFill, BsListCheck } from 'react-icons/bs'
+import { FaBullseye, FaRegEye } from 'react-icons/fa'
 import DropDownProjects from './USER/DropDownProjects';
-import { SlNote } from "react-icons/sl";
 import { useNavigate, useLocation } from 'react-router-dom';
-import AvatarDropDown from './USER/AvatarDropDown';
 import { useTheme } from 'next-themes';
 
 
@@ -30,8 +26,8 @@ const MenuItem = ({ icon, label, href }) => {
 
     const isActive = (href, pathname) => {
         // Se o href é a raiz, só retorna true se o pathname também é exatamente a raiz
-        if (href === '/') {
-            return pathname === '/';
+        if (href === '/project/id') {
+            return pathname === '/project/id';
         }
         // Para outros casos, verifica se o pathname começa com o href
         return pathname.includes(href);
@@ -53,10 +49,11 @@ const MenuItem = ({ icon, label, href }) => {
     );
 }
 
-export default function SideBar() {
+export default function SideBarProject() {
+    const navigate = useNavigate()
     return (
         <div className="hidden lg:flex lg:w-[16%]  fixed z-30 h-screen flex-col bg-background border-r-1 border-content3 p-5 pb-2">
-            <h1 className="text-4xl font-bold text-purple-500 mb-3">Ad.Lytik</h1>
+            <h1 onClick={() => { navigate("/") }} role='button' className="text-4xl font-bold text-purple-500 mb-3">Ad.Lytik</h1>
 
             <div className="mt-4 w-full">
                 <DropDownProjects />
@@ -67,19 +64,12 @@ export default function SideBar() {
             <h2 className='font-bold text-foreground mb-2'>MENU</h2>
 
             <div className="flex flex-col  mb-4">
-                <MenuItem href="/" icon={<MdOutlineDashboardCustomize size={24} />} label="Dashboard" />
-                <MenuItem href="/projects" icon={<GoProject size={24} />} label="Projetos" />
-                <MenuItem href="/integrations" icon={<TbPlugConnected size={24} />} label="Integrações" />
-
-            </div>
-
-            <h2 className='font-bold mb-2'>FERRAMENTAS</h2>
-
-            <div className="flex flex-col ">
-                <MenuItem href="/settings" icon={<RiSettings3Line size={24} />} label="Configuração" />
-                <MenuItem href="/feedback" icon={<SlNote size={24} />} label="FeedBack" />
-                <MenuItem href="/help" icon={<MdOutlineLiveHelp size={24} />} label="Ajuda" />
-
+                <MenuItem href="/project/id" icon={<FaRegEye size={24} />} label="Visão Geral" />
+                <MenuItem href="/project/id/dashboard" icon={<BsFillGridFill size={24} />} label="Dashboard" />
+                <MenuItem href="/project/id/tasks" icon={<BsListCheck size={24} />} label="Tarefas" />
+                <MenuItem href="/project/id/goals" icon={<FaBullseye size={24} />} label="Metas" />
+                <MenuItem href="/project/id/campaign" icon={<MdOutlineCampaign size={24} />} label="Campanha" />
+                <MenuItem href="/project/id/report" icon={<MdOutlineReport size={24} />} label="Relatório" />
             </div>
         </div>
     );

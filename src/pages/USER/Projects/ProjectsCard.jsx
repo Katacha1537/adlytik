@@ -27,9 +27,11 @@ export default function ProjectsCard({ idProject, nameProject, descriptionProjec
                     <p className="text-md font-bold">{nameProject}</p>
 
 
-                    <Dropdown>
+                    <Dropdown placement="bottom-start">
                         <DropdownTrigger role="button">
-                            <MdMoreVert size={24} className="rotate-90" />
+                            <Button className='bg-transparent'>
+                                <MdMoreVert size={24} className="rotate-90" />
+                            </Button>
                         </DropdownTrigger>
                         <DropdownMenu aria-label="Static Actions" >
                             <DropdownItem key="edit">Editar</DropdownItem>

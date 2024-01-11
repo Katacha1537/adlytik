@@ -5,25 +5,25 @@ import { ThemeSwitcher } from './ThemeSwitcher';
 import AvatarDropDown from './USER/AvatarDropDown';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 
-export default function Header() {
+export default function HeaderProject() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isClicked, setIsClicked] = useState(false)
     const navigate = useNavigate();
     const location = useLocation();
     const getTitle = (path) => {
         switch (path) {
-            case '/':
+            case '/project/id':
+                return 'Visão Geral';
+            case '/project/id/dashboard':
                 return 'Dashboard';
-            case '/projects':
-                return 'Projetos';
-            case '/usersteam':
-                return 'Equipe de Usuários';
-            case '/integrations':
-                return 'Integrações';
-            case '/settings':
-                return 'Configurações';
-            case '/feedback':
-                return 'FeedBack';
+            case '/project/id/tasks':
+                return 'Tarefas';
+            case '/project/id/goals':
+                return 'Metas';
+            case '/project/id/campaign':
+                return 'Campanha';
+            case '/project/id/report':
+                return 'Relatório';
             case '/help':
                 return 'Ajuda';
             default:
@@ -40,12 +40,12 @@ export default function Header() {
     }
 
     const menuItems = [
-        { key: '/adlytik', label: 'Dashboard' },
-        { key: '/projects', label: 'Projetos' },
-        { key: '/integrations', label: 'Integrações' },
-        { key: '/settings', label: 'Configurações' },
-        { key: '/feedback', label: 'FeedBack' },
-        { key: '/help', label: 'Ajuda' },
+        { key: '/project/id', label: 'Visão Geral' },
+        { key: '/project/id/dashboard', label: 'Dashboard' },
+        { key: '/project/id/tasks', label: 'Tarefas' },
+        { key: '/project/id/goals', label: 'Metas' },
+        { key: '/project/id/campaign', label: 'Campanha' },
+        { key: '/project/id/report', label: 'Relatório' },
     ]
 
     return (

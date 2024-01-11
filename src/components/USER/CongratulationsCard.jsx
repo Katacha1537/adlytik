@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, CardFooter, Button } from "@nextui-org/react";
 
-import Throph from '../assets/recompensa.png'
+import Throph from '../../assets/recompensa.png'
 
 const CongratulationsCard = () => {
   return (

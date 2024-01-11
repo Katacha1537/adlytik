@@ -1,9 +1,9 @@
-import ChartBarDouble from '../../components/ChartBarDouble';
-import CongratulationsCard from '../../components/CongratulationsCard';
-import Header from '../../components/Header';
-import MyCalendar from '../../components/MyCalendar';
-import MyProjectsDashboard from '../../components/MyProjectsDashboard';
-import MyTasks from '../../components/MyTasks';
+import ChartBarDouble from '../../../components/USER/ChartBarDouble';
+import CongratulationsCard from '../../../components/USER/CongratulationsCard';
+import Header from '../../../components/Header';
+import MyCalendar from '../../../components/USER/MyCalendar';
+import MyProjectsDashboard from '../../../components/USER/MyProjectsDashboard';
+import MyTasks from '../../../components/USER/MyTasks';
 
 export default function Home() {
     return (
