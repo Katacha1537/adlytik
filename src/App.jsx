@@ -16,6 +16,7 @@ import SideBarProject from './components/SideBarProjects';
 import HeaderProject from './components/HeaderProjects';
 import Tasks from './pages/PROJECT/Tasks/Tasks';
 import Goals from './pages/PROJECT/Goals/Goals';
+import Campaign from './pages/PROJECT/Campaign/Campaign';
 
 function AppContent() {
   const location = useLocation();
@@ -44,6 +45,7 @@ function AppContent() {
                 <Route exact path="/project/id" element={<HomeProject />} />
                 <Route exact path="/project/id/tasks" element={<Tasks />} />
                 <Route exact path="/project/id/goals" element={<Goals />} />
+                <Route exact path="/project/id/campaign" element={<Campaign />} />
               </>
 
             ) : (
