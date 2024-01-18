@@ -3,21 +3,33 @@
 @tailwind components;
 @tailwind utilities;
 
+
+@layer components {
+    .socialIcon {
+        @apply w-11 border-[1px] border-blue-400 border-solid h-11 rounded-full px-2 py-1 text-pink-500 hover:text-blue-400 cursor-pointer transition duration-200 hover:animate-pulse;
+    }
+}
+
 /* Personalizando a barra de rolagem com cores do TailwindCSS */
 
 /* Parte da barra de rolagem (track) */
 ::-webkit-scrollbar {
-    width: 12px; /* ou a largura que você desejar */
-    background-color: #1a202c; /* Exemplo para 'content1' */
+    width: 12px;
+    /* ou a largura que você desejar */
+    background-color: #1a202c;
+    /* Exemplo para 'content1' */
 }
 
 /* O handle da barra de rolagem (thumb) */
 ::-webkit-scrollbar-thumb {
-    background-color: #f7fafc; /* Exemplo para 'foreground-50' */
-    border-radius: 6px; /* opcional para bordas arredondadas */
+    background-color: #f7fafc;
+    /* Exemplo para 'foreground-50' */
+    border-radius: 6px;
+    /* opcional para bordas arredondadas */
 }
 
 /* Para o estado de hover do thumb */
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #e2e8f0; /* Um tom mais claro ou mais escuro para o hover */
+    background-color: #e2e8f0;
+    /* Um tom mais claro ou mais escuro para o hover */
 }
