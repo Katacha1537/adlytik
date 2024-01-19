@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/USER/Home/Home';
 import Login from './pages/USER/Login/Login';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SideBar from './components/SideBar';
 import Projects from './pages/USER/Projects/Projects';
 import Integrations from './pages/USER/Integrations/Integrations';
@@ -22,11 +22,13 @@ import Dashboard from './pages/PROJECT/Dashboard/Dashboard';
 import { Spinner } from '@nextui-org/react';
 
 import { useAuthContext } from './hooks/useAuthContext';
+import { IntegrationProvider } from './context/IntegrationContext';
+import { useIntegration } from './hooks/useIntegration';
 
 function AppContent() {
   const location = useLocation();
   const isProjectDashboard = location.pathname.startsWith('/project/');
-  const [integration, setIntegration] = useState(true)
+  const { integration } = useIntegration()
 
   return (
     <div className='flex w-full h-screen'>
@@ -90,7 +92,13 @@ function App() {
 
   return (
     <Router>
-      {user ? <AppContent /> : <LoginRoutes />}
+      {
+        user ?
+          <IntegrationProvider>
+            <AppContent />
+          </IntegrationProvider>
+          :
+          <LoginRoutes />}
     </Router>
   );
 }
