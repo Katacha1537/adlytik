@@ -24,11 +24,12 @@ import { Spinner } from '@nextui-org/react';
 import { useAuthContext } from './hooks/useAuthContext';
 import { IntegrationProvider } from './context/IntegrationContext';
 import { useIntegration } from './hooks/useIntegration';
+import { UserDocProvider } from './context/UserDocContext';
 
 function AppContent() {
   const location = useLocation();
   const isProjectDashboard = location.pathname.startsWith('/project/');
-  const { integration } = useIntegration()
+  const { integration, isLoading } = useIntegration()
 
   return (
     <div className='flex w-full h-screen'>
@@ -56,13 +57,23 @@ function AppContent() {
                 <Route exact path="/project/id/dashboard" element={<Dashboard />} />
               </>
 
-            ) : (
-              <>
-                <Route path="*" element={<NoIntegrations />} />
-                <Route exact path="/integrations" element={<Integrations />} />
-                <Route exact path="/settings" element={<Settings />} />
-              </>
-            )
+            ) :
+
+              isLoading ? (
+                <Route path="*" element={
+                  <div className='flex w-full h-screen items-center justify-center'>
+                    <Spinner color="secondary" size="lg" />
+                  </div>
+                } />
+              )
+                :
+                (
+                  <>
+                    <Route path="*" element={<NoIntegrations />} />
+                    <Route exact path="/integrations" element={<Integrations />} />
+                    <Route exact path="/settings" element={<Settings />} />
+                  </>
+                )
           }
         </Routes>
       </div>
@@ -94,9 +105,11 @@ function App() {
     <Router>
       {
         user ?
-          <IntegrationProvider>
-            <AppContent />
-          </IntegrationProvider>
+          <UserDocProvider>
+            <IntegrationProvider>
+              <AppContent />
+            </IntegrationProvider>
+          </UserDocProvider>
           :
           <LoginRoutes />}
     </Router>

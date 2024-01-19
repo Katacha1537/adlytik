@@ -7,4 +7,4 @@ export const useIntegration = () => {
         throw new Error('useIntegration must be used within an IntegrationProvider');
     }
     return context;
-}
+};

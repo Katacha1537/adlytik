@@ -1,7 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Divider, Input, Textarea, Button } from '@nextui-org/react';
+import { useUserDocument } from '../../../hooks/useUserDocument';
 
 export default function Profile() {
+    const { userDocument } = useUserDocument()
+
+    const [formData, setFormData] = useState({
+        name: userDocument?.userName || '',
+        phone: userDocument?.phone || '',
+        companyName: userDocument?.companyName || '',
+        companyWebsite: userDocument?.companyWebsite || '',
+        aboutMe: userDocument?.aboutMe || '',
+        roleInCompany: userDocument?.roleInCompany || '',
+    })
+
+    const handleInputChange = (field, value) => {
+        setFormData({ ...formData, [field]: value });
+    }
+
+    const handleUpdateProfile = () => {
+        // Lógica para atualizar o perfil no Firebase ou no seu backend
+        // Utilize o formData para enviar os dados atualizados
+        // ...
+
+        // Exemplo de console.log para visualizar os dados
+        console.log('Dados atualizados:', formData);
+    }
+
     return (
         <div className='bg-content1 shadow-md rounded-lg mb-5 border-1 border-content3 w-full '>
             <div className='p-4'>
@@ -17,6 +42,8 @@ export default function Profile() {
                     placeholder="Digite seu nome"
                     radius="sm"
                     size="md"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
                     classNames={{
                         label: [
                             "font-semibold"
@@ -30,6 +57,8 @@ export default function Profile() {
                     placeholder="Digite seu telefone"
                     radius="sm"
                     size="md"
+                    value={formData.phone}
+                    onChange={(e) => handleInputChange('phone', e.target.value)}
                     classNames={{
                         label: [
                             "font-semibold"
@@ -43,6 +72,8 @@ export default function Profile() {
                     placeholder="Digite o nome da sua empresa"
                     radius="sm"
                     size="md"
+                    value={formData.companyName}
+                    onChange={(e) => handleInputChange('companyName', e.target.value)}
                     classNames={{
                         label: [
                             "font-semibold"
@@ -56,6 +87,8 @@ export default function Profile() {
                     placeholder="Digite o site da sua empresa"
                     radius="sm"
                     size="md"
+                    value={formData.companyWebsite}
+                    onChange={(e) => handleInputChange('companyWebsite', e.target.value)}
                     classNames={{
                         label: [
                             "font-semibold"
@@ -67,6 +100,8 @@ export default function Profile() {
                     labelPlacement="outside"
                     placeholder="Descreva sobre você e a empresa"
                     radius='sm'
+                    value={formData.aboutMe}
+                    onChange={(e) => handleInputChange('aboutMe', e.target.value)}
                     classNames={{
                         label: "font-semibold"
                     }}
@@ -78,6 +113,8 @@ export default function Profile() {
                     placeholder="Digite sua função na empresa"
                     radius="sm"
                     size="md"
+                    value={formData.roleInCompany}
+                    onChange={(e) => handleInputChange('roleInCompany', e.target.value)}
                     classNames={{
                         label: [
                             "font-semibold"

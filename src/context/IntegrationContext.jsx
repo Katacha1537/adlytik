@@ -6,77 +6,80 @@ import { useFirestore } from '../hooks/useFirestore';
 export const IntegrationContext = createContext();
 
 export const IntegrationProvider = ({ children }) => {
-    const { updateDocument } = useFirestore("users")
+    const { updateDocument } = useFirestore("users");
 
     const [integration, setIntegration] = useState(false);
     const [tokenFacebook, setTokenFacebook] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
     const { user } = useAuthContext();
-    const { document: userData, error } = useDocument('users', user?.uid)
+    const { document: userData, error } = useDocument('users', user?.uid);
 
     const resetToken = async () => {
         try {
             await updateDocument(user.uid, {
-                facebookToken: " ",
-                expireTokenIn: " ",
+                facebookToken: "",
+                expireTokenIn: "",
                 userIntegration: false,
-            })
-            return
+            });
         } catch (error) {
-            console.log(error)
+            console.error(error);
         }
-    }
+    };
 
     useEffect(() => {
-        if (!userData) {
-            return;
-        }
+        const fetchData = async () => {
+            setIsLoading(true);
 
-        const formatDate = (date) => {
-            const day = date.getDate().toString().padStart(2, '0');
-            const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Os meses são baseados em zero
-            const year = date.getFullYear();
-            return `${year}-${month}-${day}`;
-        }
-
-        try {
-            const { userIntegration, expireTokenIn, facebookToken } = userData;
-            setTokenFacebook(facebookToken);
-
-            console.log(userIntegration, expireTokenIn)
-
-            // Correção aqui - use a propriedade seconds para obter o timestamp
-            const expireToken = formatDate(new Date(expireTokenIn.seconds * 1000));
-            const dateToday = formatDate(new Date());
-
-            console.log("Current date:", dateToday);
-            console.log("Expire date from Firestore:", expireToken);
-
-            // Check if integration is true and expiration date is not reached
-            if (userIntegration && new Date(expireToken) > new Date(dateToday)) {
-                setIntegration(true);
-            } else {
-                if (new Date(expireToken) <= new Date(dateToday)) {
-                    setIntegration(false);
-                    console.log("Token expiredo. Resetting...");
-                    resetToken();
-                } else {
-                    console.log("Integration is false. Not resetting token.");
+            try {
+                if (!userData) {
+                    // Usuário sem dados ou dados ainda não carregados
+                    console.log("User data not found or not loaded yet.");
+                    return;
                 }
+
+                const formatDate = (date) => {
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    const year = date.getFullYear();
+                    return `${year}-${month}-${day}`;
+                };
+
+                const { userIntegration, expireTokenIn, facebookToken } = userData;
+                setTokenFacebook(facebookToken);
+
+                const expireToken = formatDate(new Date(expireTokenIn.seconds * 1000));
+                const dateToday = formatDate(new Date());
+
+                if (userIntegration && new Date(expireToken) > new Date(dateToday)) {
+                    setIntegration(true);
+                } else {
+                    if (!userIntegration && new Date(expireToken) <= new Date(dateToday)) {
+                        console.log("Token expired. Resetting...");
+                        resetToken();
+                    } else {
+                        console.log("Integration is false. Not resetting token.");
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error processing integration data:', error.message);
+            } finally {
+                setIsLoading(false);
             }
+        };
 
-        } catch (error) {
-            console.error('Error processing integration data:', error.message);
+        if (user?.uid && userData) {
+            fetchData();
+        } else {
+            setIsLoading(false);
         }
-    }, [userData]);
-
-
-
-
+    }, [user?.uid, userData]);
 
     const value = {
         integration,
         setIntegration,
-        tokenFacebook
+        tokenFacebook,
+        isLoading,
     };
 
     return (
@@ -84,4 +87,4 @@ export const IntegrationProvider = ({ children }) => {
             {children}
         </IntegrationContext.Provider>
     );
-};
+}
