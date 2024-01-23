@@ -56,22 +56,30 @@ export default function Integrations() {
                 <h2 className="text-2xl font-bold">Lista de Integrações</h2>
             </div>
             <div className="flex justify-between w-full mt-4 border-1 border-content3 rounded-md p-2">
-                <div className="flex items-center gap-3">
-                    <FaFacebookSquare size={32} className="text-blue-500" />
-                    <h3 className="font-bold">Facebook</h3>
-                </div>
                 {integration ? (
-                    <Button color="secondary" isDisabled className="w-[150px]">Conectado</Button>
+                    <>
+                        <div className="flex items-center gap-3 opacity-50">
+                            <FaFacebookSquare size={32} className="text-blue-500" />
+                            <h3 className="font-bold">Facebook</h3>
+                        </div>
+                        <Button color="secondary" isDisabled className="w-[150px]">Conectado</Button>
+                    </>
                 ) : (
-                    <FacebookLogin
-                        appId="1445241209543990"
-                        autoLoad={false}
-                        fields="name,email,picture"
-                        scope="public_profile,email,ads_read,read_insights"
-                        textButton="Conectar"
-                        cssClass="text-foreground-50 bg-purple-700 pt-2 pb-2 pr-4 pl-4 w-[150px] rounded-lg"
-                        callback={responseFacebook}
-                    />
+                    <>
+                        <div className="flex items-center gap-3">
+                            <FaFacebookSquare size={32} className="text-blue-500" />
+                            <h3 className="font-bold">Facebook</h3>
+                        </div>
+                        <FacebookLogin
+                            appId="1445241209543990"
+                            autoLoad={false}
+                            fields="name,email,picture"
+                            scope="public_profile,email,ads_read,read_insights"
+                            textButton="Conectar"
+                            cssClass="text-foreground-50 bg-purple-700 pt-2 pb-2 pr-4 pl-4 w-[150px] rounded-lg"
+                            callback={responseFacebook}
+                        />
+                    </>
                 )}
             </div>
             <div className="flex justify-between w-full mt-4 border-1 border-content3 rounded-md p-2">
@@ -79,14 +87,14 @@ export default function Integrations() {
                     <SiGoogleads size={32} className="text-yellow-500 opacity-50" />
                     <h3 className="font-bold text-foreground-400">Google Ads (em breve)</h3>
                 </div>
-                <Button color="secondary" isDisabled className="w-[150px]">Conectar</Button>
+                <Button color="secondary" isDisabled className="w-[150px]">(em breve)</Button>
             </div>
             <div className="flex justify-between w-full mt-4 border-1 border-content3 rounded-md p-2">
                 <div className="flex items-center gap-3">
                     <SiGooglesheets size={32} className="text-green-500 opacity-50" />
                     <h3 className="font-bold text-foreground-400">Google Sheet (em breve)</h3>
                 </div>
-                <Button color="secondary" isDisabled className="w-[150px]">Conectar</Button>
+                <Button color="secondary" isDisabled className="w-[150px]">(em breve)</Button>
             </div>
         </div>
     );

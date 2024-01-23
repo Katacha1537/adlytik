@@ -4,12 +4,18 @@ import { MdNotificationsNone, MdMenu } from 'react-icons/md';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import AvatarDropDown from './USER/AvatarDropDown';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
+import { useRerenderUpdate } from '../hooks/useRerenderUpdate';
 
 export default function Header() {
+
+    const { rerender } = useRerenderUpdate()
+
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isClicked, setIsClicked] = useState(false)
+
     const navigate = useNavigate();
     const location = useLocation();
+
     const getTitle = (path) => {
         switch (path) {
             case '/':
@@ -40,7 +46,7 @@ export default function Header() {
     }
 
     const menuItems = [
-        { key: '/adlytik', label: 'Dashboard' },
+        { key: '/', label: 'Dashboard' },
         { key: '/projects', label: 'Projetos' },
         { key: '/integrations', label: 'Integrações' },
         { key: '/settings', label: 'Configurações' },
@@ -52,6 +58,7 @@ export default function Header() {
         <div className="flex fixed top-0 lg:left-[16%] lg:w-[84%] w-full z-20 justify-between items-center px-4 pr-6 py-4 bg-background/70 backdrop-blur-sm border-b-1 border-content3">
             <div className='flex gap-3'>
                 <Dropdown >
+                    {rerender && <div className='hidden'></div>}
                     <DropdownTrigger className="lg:hidden">
                         <Button className='bg-transparent'>
                             <MdMenu size={28} />
@@ -79,6 +86,7 @@ export default function Header() {
                 <MdNotificationsNone size={28} className="cursor-pointer hidden lg:block" />
                 <ThemeSwitcher />
                 <AvatarDropDown />
+                {rerender && <></>}
             </div>
         </div>
     );

@@ -2,13 +2,16 @@ import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@nextui-org/react";
 import { GoChevronDown } from "react-icons/go";
+import { useOwnedProjects } from "../../hooks/useOwnedProjects";
 
 export default function DropDownProjects() {
     const navigate = useNavigate();
 
+    const { ownedProjects, error } = useOwnedProjects()
+
     const handleAction = (key) => {
         // Navega para a rota desejada com base na chave
-        navigate(`/project/id`);
+        navigate(`/project/${key}`);
     };
 
     return (
@@ -27,9 +30,12 @@ export default function DropDownProjects() {
                 </Button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Static Actions" onAction={handleAction}>
-                <DropdownItem key="drfernando">Dr Fernando</DropdownItem>
-                <DropdownItem key="katacha">Lucas Katacha</DropdownItem>
-                <DropdownItem key="roberta">Roberta Carbonari</DropdownItem>
+
+                {ownedProjects.map(ownedProject => {
+                    return (
+                        <DropdownItem key={ownedProject.id}>{ownedProject.nameProject}</DropdownItem>
+                    )
+                })}
             </DropdownMenu>
         </Dropdown>
     );

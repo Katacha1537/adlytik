@@ -1,8 +1,15 @@
 import React from 'react'
 import { User, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Spinner } from '@nextui-org/react'
 import { useLogout } from '../../hooks/useLogout'
+import { useUserDocument } from '../../hooks/useUserDocument'
+import { useAuthContext } from '../../hooks/useAuthContext'
+
 export default function AvatarDropDown() {
+    const { user } = useAuthContext()
+
     const { logout, error, isPending } = useLogout()
+
+    const { userDocument } = useUserDocument()
 
     return (
         <Dropdown placement="bottom-start">
@@ -13,11 +20,11 @@ export default function AvatarDropDown() {
                         isBordered: true,
                         color: "secondary",
                         size: "md",
-                        src: "https://pbs.twimg.com/profile_images/1409730538236170241/h47IxksM_400x400.jpg",
+                        src: `${user.photoURL}`,
                     }}
                     className="transition-transform"
-                    description="@katachalucas"
-                    name="Lucas Katacha"
+                    description={`@${userDocument?.userName}`}
+                    name={userDocument?.nameComplete}
                 />
             </DropdownTrigger>
             <DropdownMenu aria-label="User Actions" variant="flat">

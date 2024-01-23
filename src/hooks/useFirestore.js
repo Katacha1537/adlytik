@@ -85,7 +85,11 @@ export const useFirestore = (coll) => {
     dispatch({ type: "IS_PENDING" });
     try {
       const createdAt = timestamp;
-      const addedDocument = await addDoc(ref, { ...doc, createdAt });
+      const addedDocument = await addDoc(ref, { ...doc, createdAt, id: "" });
+      const addedDocumentId = addedDocument.id
+
+      await updateDoc(addedDocument, { id: addedDocumentId })
+
       dispatchIfNotCancelled({
         type: "ADDED_DOCUMENT",
         payload: addedDocument,
@@ -159,7 +163,13 @@ export const useFirestore = (coll) => {
     try {
       const createdAt = timestamp;
       const subcollRef = collection(db, `${coll}/${docId}/${subcoll}`);
-      const addedSubDocument = await addDoc(subcollRef, { ...data, createdAt });
+      const addedSubDocumentRef = await addDoc(subcollRef, { ...data, createdAt, id: "" });
+
+      const addedSubDocumentId = addedSubDocumentRef.id;
+
+      // Atualiza o documento para incluir o ID gerado pelo Firestore
+      await updateDoc(addedSubDocumentRef, { id: addedSubDocumentId });
+
       dispatchIfNotCancelled({
         type: "ADDED_DOCUMENT",
         payload: addedSubDocument,
@@ -217,6 +227,6 @@ export const useFirestore = (coll) => {
     deleteSubDocument,
     response,
     serverTimestamp,
-    
+
   };
 };

@@ -12,23 +12,18 @@ import {
     Avatar,
     Button,
     Tooltip,
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    Textarea,
-    Select,
-    SelectItem,
-    ModalFooter,
-    Input
 } from "@nextui-org/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEye, FaEdit, FaTrashAlt } from "react-icons/fa";
 import { GoPlusCircle } from "react-icons/go";
 import { v4 as uuidv4 } from 'uuid'
 import ModalTask from "./ModalTask";
 import ModalView from "./ModalView";
 import ModalEdit from "./ModalEdit";
+import { useParams } from 'react-router-dom'
+import { useSubcollection } from "../../../hooks/useSubcollection";
+import { useFirestore } from "../../../hooks/useFirestore";
+import { useDocument } from "../../../hooks/useDocument";
 
 const columns = [
     { name: "Nome da Tarefa", uid: "nameTask" },
@@ -48,40 +43,7 @@ const priorityColorMap = {
     "Baixa": "success", // Verde para "Baixa"
     "Média": "warning", // Amarelo para "Média"
     "Alta": "danger" // Vermelho para "Alta"
-};
-
-const users = [
-    {
-        id: "efca0d61-e64c",
-        name: "Tony Reichert",
-        role: "CEO",
-        team: "Management",
-        status: "active",
-        age: "29",
-        avatar: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/1.png",
-        email: "tony.reichert@example.com",
-    },
-    {
-        id: "fa300597-9d00",
-        name: "Zoey Lang",
-        role: "Tech Lead",
-        team: "Development",
-        status: "paused",
-        age: "25",
-        avatar: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/1.png",
-        email: "zoey.lang@example.com",
-    },
-    {
-        id: "8421fc3c-3e2f",
-        name: "Jane Fisher",
-        role: "Sr. Dev",
-        team: "Development",
-        status: "active",
-        age: "22",
-        avatar: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/2.png",
-        email: "jane.fisher@example.com",
-    }
-]
+}
 
 const renderCell = (task, columnKey, handleDeleteTask, handleViewTask, handleEditTask) => {
     const cellValue = task[columnKey];
@@ -106,7 +68,7 @@ const renderCell = (task, columnKey, handleDeleteTask, handleViewTask, handleEdi
         case "responsible":
             return <Avatar
                 src={task.avatar}
-                color="primary"
+                color="secondary"
                 size="sm"
             />;
         case "actions":
@@ -139,50 +101,41 @@ export default function Tasks() {
     const { isOpen: isOpenView, onOpen: onOpenView, onOpenChange: onOpenChangeView } = useDisclosure()
     const { isOpen: isOpenEdit, onOpen: onOpenEdit, onOpenChange: onOpenChangeEdit } = useDisclosure()
     const [newTask, setNewTask] = useState({ nameTask: '', descriptionTask: '', status: '', priority: '', responsible: "", responsibleId: "", avatar: '' })
-    const [tasks, setTasks] = useState([
-        {
-            "id": "005d06ab-be24-452e-9f0f-670d29110a77",
-            "nameTask": "teste123",
-            "descriptionTask": "descriçao123",
-            "status": "Pendente",
-            "priority": "Média",
-            "responsible": "Zoey Lang",
-            "responsibleId": "fa300597-9d00",
-            "avatar": "https://d2u8k2ocievbld.cloudfront.net/memojis/female/1.png"
-        },
-        {
-            "id": "005d06ab-be24-452e-9f0f-66632652622a5",
-            "nameTask": "teste1",
-            "descriptionTask": "descriçao1",
-            "status": "Em andamento",
-            "priority": "Média",
-            "responsible": "Jane Fisher",
-            "responsibleId": "8421fc3c-3e2f",
-            "avatar": "https://d2u8k2ocievbld.cloudfront.net/memojis/female/2.png"
-        }
-    ])
+    const [tasks, setTasks] = useState([])
+    const [users, setUsers] = useState([])
+
     const [viewTask, setViewTask] = useState([])
 
-    const handleAddTask = () => {
-        const newTaskObject = {
-            id: uuidv4(), // Utilizando uuid para gerar um ID único
-            ...newTask
-        };
-        setTasks([...tasks, newTaskObject]);
+    const { id: projectId } = useParams()
+
+    const { documents: tasksDocument } = useSubcollection("projects", projectId, "tasks")
+    const { addSubDocument, deleteSubDocument } = useFirestore("projects")
+    const { document: userDocument } = useDocument("projects", projectId)
+
+    useEffect(() => {
+        setTasks(tasksDocument || tasks)
+        setUsers(userDocument?.membersProject || users)
+    }, [tasksDocument])
+
+
+    const handleAddTask = async () => {
+
+        console.log(newTask)
+
+        const { payload } = await addSubDocument(projectId, "tasks", newTask)
+
         setNewTask({ nameTask: '', descriptionTask: '', status: '', priority: '', responsible: "", responsibleId: "", avatar: '' });
-        onOpenChange(false);
+
+        onOpenChange(false)
     }
 
-    const handleDeleteTask = (taskId) => {
-        console.log(tasks);
-
-        // Use a função de callback no setState para garantir que você está trabalhando com o estado mais recente
-        setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+    const handleDeleteTask = async (taskId) => {
+        await deleteSubDocument(projectId, "tasks", taskId)
     }
 
     const updateTaskField = (field, value) => {
         if (field === "responsibleId") {
-            const selectedUser = users.find(user => user.id === value);
+            const selectedUser = users.find(user => user.idMember === value);
 
             console.log("Value:", value);
             console.log("Users:", users);
@@ -191,9 +144,9 @@ export default function Tasks() {
             if (selectedUser) {
                 setNewTask({
                     ...newTask,
-                    responsibleId: selectedUser.id,
-                    responsible: selectedUser.responsible,
-                    avatar: selectedUser.avatar
+                    responsibleId: selectedUser.idMember,
+                    responsible: selectedUser.name,
+                    avatar: selectedUser.urlPhoto
                 });
             }
         } else {

@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { Divider, Input, Textarea, Button } from '@nextui-org/react';
 import { useUserDocument } from '../../../hooks/useUserDocument';
+import { useFirestore } from '../../../hooks/useFirestore';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 
 export default function Profile() {
+    const { user } = useAuthContext()
     const { userDocument } = useUserDocument()
+    const { updateDocument } = useFirestore("users")
 
     const [formData, setFormData] = useState({
-        name: userDocument?.userName || '',
+        name: userDocument?.nameComplete || '',
         phone: userDocument?.phone || '',
         companyName: userDocument?.companyName || '',
         companyWebsite: userDocument?.companyWebsite || '',
@@ -18,13 +22,19 @@ export default function Profile() {
         setFormData({ ...formData, [field]: value });
     }
 
-    const handleUpdateProfile = () => {
-        // Lógica para atualizar o perfil no Firebase ou no seu backend
-        // Utilize o formData para enviar os dados atualizados
-        // ...
-
-        // Exemplo de console.log para visualizar os dados
-        console.log('Dados atualizados:', formData);
+    const handleUpdateProfile = async () => {
+        try {
+            const result = await updateDocument(user.uid, {
+                nameComplete: formData.name,
+                phone: formData.phone,
+                companyName: formData.companyName,
+                companyWebsite: formData.companyWebsite,
+                roleInCompany: formData.roleInCompany
+            })
+            return
+        } catch (error) {
+            console.error("Erro ao atualizar perfil:", error.message)
+        }
     }
 
     return (
@@ -121,7 +131,7 @@ export default function Profile() {
                         ]
                     }}
                 />
-                <Button color='secondary'>
+                <Button onClick={handleUpdateProfile} color='secondary'>
                     Atualizar Perfil
                 </Button>
             </div>

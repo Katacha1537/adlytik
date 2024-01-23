@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Divider, Input, Textarea, Button } from '@nextui-org/react';
+import { useUserDocument } from '../../../hooks/useUserDocument';
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import { useFirestore } from '../../../hooks/useFirestore';
 
 export default function Config() {
+    const { user } = useAuthContext()
+    const { userDocument } = useUserDocument()
+    const { updateDocument } = useFirestore("users")
+
+    const [formData, setFormData] = useState({
+        name: userDocument?.userName || '',
+        email: userDocument?.email || ''
+    })
+
+    const handleInputChange = (field, value) => {
+        setFormData({ ...formData, [field]: value });
+    }
+
+    const handleUpdateConfig = async () => {
+        try {
+            const result = await updateDocument(user.uid, {
+                userName: formData.name
+            })
+            return
+        } catch (error) {
+            console.error("Erro ao salvar mudanças configurações:", error.message)
+        }
+    }
+
     return (
         <div className='bg-content1 shadow-md rounded-lg mb-5 border-1 border-content3 w-full '>
             <div className='p-4'>
@@ -14,9 +41,10 @@ export default function Config() {
                     type="text"
                     label="Nome de usuário:"
                     labelPlacement="outside"
-                    value="Katacha"
                     radius="sm"
                     size="md"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange('name', e.target.value)}
                     classNames={{
                         label: [
                             "font-semibold"
@@ -26,14 +54,16 @@ export default function Config() {
                         ]
                     }}
                 />
-                <p className='text-sm text-foreground-400'>URL do seu painel: http://dashboard.com/clayton</p>
+                <p className='text-sm text-foreground-400'>URL do seu painel: http://dashboard.com/{formData.name}</p>
                 <Input
                     type="email"
                     label="E-mail:"
                     labelPlacement="outside"
-                    value="lucasgabrieljaci20@gmail.com"
                     radius="sm"
                     size="md"
+                    isDisabled
+                    value={formData.email}
+                    onChange={(e) => handleInputChange('email', e.target.value)}
                     classNames={{
                         label: [
                             "font-semibold"
@@ -43,9 +73,9 @@ export default function Config() {
                         ]
                     }}
                 />
-                    <Button color='secondary'>
-                        Salvar mudanças
-                    </Button>
+                <Button onClick={handleUpdateConfig} color='secondary'>
+                    Salvar mudanças
+                </Button>
             </div>
         </div>
     );

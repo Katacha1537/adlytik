@@ -1,13 +1,39 @@
 import React, { useState } from 'react';
 import { Textarea, Button } from '@nextui-org/react';
+import { useFirestore } from '../../../hooks/useFirestore';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 
 export default function Feedback() {
-    const [suggestion, setSuggestion] = useState('');
+    const { user } = useAuthContext()
 
-    const handleSubmit = (event) => {
+    const [suggestion, setSuggestion] = useState('')
+
+    const { addDocument } = useFirestore("feedbacks")
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        alert(`Sugestão enviada: ${suggestion}`);
-        setSuggestion('');
+
+        if (!suggestion) {
+            alert('Por favor, forneça um comentário ou sugestão.');
+            return;
+        }
+
+        try {
+            // Estrutura do dado a ser adicionado
+            const feedbackData = {
+                comment: suggestion,
+                userId: user.uid, // Certifique-se de ter a variável 'user' disponível no escopo (por exemplo, usando useAuthContext)
+            };
+
+            // Adiciona o documento ao Firestore
+            await addDocument(feedbackData);
+
+            alert('Sugestão enviada com sucesso!');
+            setSuggestion('');
+        } catch (error) {
+            console.error('Erro ao enviar a sugestão:', error.message);
+            alert('Erro ao enviar a sugestão. Por favor, tente novamente mais tarde.');
+        }
     };
 
     return (

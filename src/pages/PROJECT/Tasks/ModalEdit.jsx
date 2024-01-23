@@ -10,11 +10,16 @@ import {
     Input, Button, Avatar
 } from "@nextui-org/react"
 import { useEffect, useState } from "react";
-export default function ModalEdit({ isOpen, onOpenChange, users, newTask, tasks, setTasks, updateTaskField, viewTask, setNewTask }) {
-    const [isDataReady, setIsDataReady] = useState(false)
+import { useFirestore } from "../../../hooks/useFirestore";
+import { useParams } from 'react-router-dom'
 
+export default function ModalEdit({ isOpen, onOpenChange, users, newTask, tasks, updateTaskField, viewTask, setNewTask }) {
+    const [isDataReady, setIsDataReady] = useState(false)
+    const { id: projectId } = useParams()
+    const { updateSubDocument } = useFirestore("projects")
     // Atualiza o estado newTask com as informações da tarefa existente no modo de edição
     useEffect(() => {
+        console.log(users)
         if (viewTask && viewTask[0]) {
             setNewTask(prevNewTask => ({
                 ...prevNewTask,
@@ -47,20 +52,10 @@ export default function ModalEdit({ isOpen, onOpenChange, users, newTask, tasks,
         };
     }, [isOpen]);
 
-    const handleEditTask = (onClose) => {
-        // Lógica para editar a tarefa...
+    const handleEditTask = async (onClose) => {
 
-        const updatedTasks = tasks.map(task => {
-            if (task.id === newTask.id) {
-                return { ...task, ...newTask }; // Atualiza a tarefa correspondente
-            }
-            return task;
-        });
+        await updateSubDocument(projectId, "tasks", newTask.id, newTask)
 
-        // Atualiza a lista de tarefas com as alterações
-        setTasks(updatedTasks);
-
-        // Reseta o estado
         setNewTask(prevNewTask => ({
             ...prevNewTask,
             id: '',
@@ -71,12 +66,10 @@ export default function ModalEdit({ isOpen, onOpenChange, users, newTask, tasks,
             responsible: '',
             responsibleId: '',
             avatar: '',
-        }));
+        }))
 
-        setIsDataReady(false);
-
-        // Fecha o modal
-        onClose();
+        setIsDataReady(false)
+        onClose()
     }
 
 
@@ -172,23 +165,20 @@ export default function ModalEdit({ isOpen, onOpenChange, users, newTask, tasks,
                                         classNames={{
                                             trigger: "h-12",
                                         }}
+                                        defaultSelectedKeys={[`${newTask.responsibleId}`]}
                                         value={newTask.responsibleId}
-                                        defaultSelectedKeys={[newTask.responsibleId]}
                                         onChange={(e) => updateTaskField('responsibleId', e.target.value)}
                                     >
-                                        {(user) => {
-                                            return (
-                                                <SelectItem key={user.id} textValue={user.name}>
-                                                    <div className="flex gap-2 items-center">
-                                                        <Avatar alt={user.name} value={user.name} className="flex-shrink-0" size="sm" src={user.avatar} />
-                                                        <div className="flex flex-col">
-                                                            <span className="text-small">{user.name}</span>
-                                                            <span className="text-tiny text-default-400">{user.email}</span>
-                                                        </div>
+                                        {(user) => (
+                                            <SelectItem key={user.idMember} textValue={user.name}>
+                                                <div className="flex gap-2 items-center">
+                                                    <Avatar alt={user.name} className="flex-shrink-0" size="sm" src={user.urlPhoto} />
+                                                    <div className="flex flex-col">
+                                                        <span className="text-small">{user.name}</span>
                                                     </div>
-                                                </SelectItem>
-                                            )
-                                        }}
+                                                </div>
+                                            </SelectItem>
+                                        )}
                                     </Select>
 
                                 </>

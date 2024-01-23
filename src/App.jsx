@@ -25,15 +25,27 @@ import { useAuthContext } from './hooks/useAuthContext';
 import { IntegrationProvider } from './context/IntegrationContext';
 import { useIntegration } from './hooks/useIntegration';
 import { UserDocProvider } from './context/UserDocContext';
+import { RerenderUpdateProvider } from './context/RerenderUpdateContext';
 
 function AppContent() {
   const location = useLocation();
   const isProjectDashboard = location.pathname.startsWith('/project/');
   const { integration, isLoading } = useIntegration()
+  const [projectId, setProjectId] = useState('')
+
+  useEffect(() => {
+    if (isProjectDashboard) {
+      // Extract projectId from the URL
+      const parts = location.pathname.split('/');
+      if (parts.length >= 3) {
+        setProjectId(parts[2]);
+      }
+    }
+  }, [location.pathname, isProjectDashboard])
 
   return (
     <div className='flex w-full h-screen'>
-      {!isProjectDashboard ? <SideBar /> : <SideBarProject />}
+      {!isProjectDashboard ? <SideBar /> : <SideBarProject projectId={projectId} />}
       {!isProjectDashboard ? <Header /> : <HeaderProject />}
       <div className={`lg:pl-[16%] flex-grow`}>
         <Routes>
@@ -50,11 +62,11 @@ function AppContent() {
                 <Route exact path="/feedback" element={<Feedback />} />
                 <Route exact path="/help" element={<Help />} />
 
-                <Route exact path="/project/id" element={<HomeProject />} />
-                <Route exact path="/project/id/tasks" element={<Tasks />} />
-                <Route exact path="/project/id/goals" element={<Goals />} />
-                <Route exact path="/project/id/campaign" element={<Campaign />} />
-                <Route exact path="/project/id/dashboard" element={<Dashboard />} />
+                <Route exact path="/project/:id" element={<HomeProject />} />
+                <Route exact path="/project/:id/tasks" element={<Tasks />} />
+                <Route exact path="/project/:id/goals" element={<Goals />} />
+                <Route exact path="/project/:id/campaign" element={<Campaign />} />
+                <Route exact path="/project/:id/dashboard" element={<Dashboard />} />
               </>
 
             ) :
@@ -105,11 +117,13 @@ function App() {
     <Router>
       {
         user ?
-          <UserDocProvider>
-            <IntegrationProvider>
-              <AppContent />
-            </IntegrationProvider>
-          </UserDocProvider>
+          <RerenderUpdateProvider>
+            <UserDocProvider>
+              <IntegrationProvider>
+                <AppContent />
+              </IntegrationProvider>
+            </UserDocProvider>
+          </RerenderUpdateProvider>
           :
           <LoginRoutes />}
     </Router>
