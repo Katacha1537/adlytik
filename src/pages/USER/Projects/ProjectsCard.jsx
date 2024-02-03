@@ -15,11 +15,19 @@ import {
     DropdownItem
 } from "@nextui-org/react";
 
+import { useNavigate } from 'react-router-dom';
 
 import { BiTask } from "react-icons/bi";
 import { MdMoreVert } from 'react-icons/md';
 
 export default function ProjectsCard({ idProject, nameProject, descriptionProject, tasksProject, membersProject }) {
+
+    const navigate = useNavigate();
+
+    const handleAction = (key) => {
+        // Navega para a rota desejada com base na chave
+        navigate(`/project/${key}`);
+    };
     return (
         <Card className="flex flex-col w-full max-w-full md:max-w-[48.6%] lg:max-w-[32%] 2xl:max-w-[24%]">
             <CardHeader className="flex gap-3">
@@ -55,7 +63,7 @@ export default function ProjectsCard({ idProject, nameProject, descriptionProjec
                         ))
                     }
                 </AvatarGroup>
-                <Button color="secondary">
+                <Button color="secondary" onClick={() => { handleAction(idProject) }}>
                     Entrar
                 </Button>
                 <Chip

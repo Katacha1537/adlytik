@@ -2,15 +2,16 @@ import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { useTheme } from 'next-themes';
 
-const AreaChart = ({size}) => {
+const AreaChart = ({ size, dataInsight, dataType }) => {
     const { theme } = useTheme();
 
-    const data = generateDayWiseTimeSeries(new Date("01 Jan 2024").getTime(), 7, {
-        min: 30,
-        max: 90
-    });
-
     const isDarkMode = theme === 'dark';
+
+    // Filtra as datas e valores com base no dataType
+    const filteredData = dataInsight.map(item => ({
+        x: new Date(item.date).getTime(),
+        y: parseFloat(item[dataType]) || 0,
+    }));
 
     const options = {
         chart: {
@@ -52,7 +53,8 @@ const AreaChart = ({size}) => {
         },
         series: [
             {
-                data: data
+                name: dataType,
+                data: filteredData
             }
         ],
         tooltip: {
@@ -76,21 +78,6 @@ const AreaChart = ({size}) => {
             },
         }
     };
-
-    function generateDayWiseTimeSeries(baseval, count, yrange) {
-        var i = 0;
-        var series = [];
-        while (i < count) {
-            var x = baseval;
-            var y =
-                Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-
-            series.push([x, y]);
-            baseval += 86400000;
-            i++;
-        }
-        return series;
-    }
 
     return (
         <div id="chart">

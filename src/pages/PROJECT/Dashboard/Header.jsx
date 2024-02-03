@@ -1,10 +1,13 @@
 
 import { Card, Select, SelectItem, Spacer } from '@nextui-org/react';
 
-export default function Header({ setActiveTab, activeTab }) {
+export default function Header({ setActiveTab, activeTab, periodSelection, setPeriodSelection }) {
     const handleTabChange = (selectedTab) => {
         setActiveTab(selectedTab);
     };
+
+    
+
     return (
         <Card className=" p-4 mb-8 " >
             <div className="flex items-center justify-between w-full">
@@ -25,6 +28,8 @@ export default function Header({ setActiveTab, activeTab }) {
                         size="sm"
                         radius="sm"
                         onChange={(e) => handleTabChange(e.target.value)}
+                        aria-label="Selecione um tipo de dashboard"
+                        aria-labelledby="dashboardType"
                     >
                         <SelectItem key="general" value="general">
                             Geral
@@ -39,21 +44,37 @@ export default function Header({ setActiveTab, activeTab }) {
                             Vendas
                         </SelectItem>
                     </Select>
-                    <Select className="w-36 max-w-xs" selectedKeys={['EsteMês']} size="sm" radius="sm">
-                        <SelectItem key="EsteMês" value="EsteMês">
-                            Este mês
-                        </SelectItem>
-                        <SelectItem key="EstaSemana" value="EstaSemana">
-                            Esta semana
-                        </SelectItem>
-                        <SelectItem key="Ontem" value="Ontem">
-                            Ontem
-                        </SelectItem>
-                        <SelectItem key="Hoje" value="Hoje">
+                    <Select
+                        className="w-36 max-w-xs"
+                        defaultSelectedKeys={[`${periodSelection}`]}
+                        value={periodSelection}
+                        onChange={(e) => { setPeriodSelection(e.target.value) }}
+                        size="sm"
+                        radius="sm"
+                        aria-label="Selecione um período"
+                        aria-labelledby="periodLabel"
+                    >
+
+                        <SelectItem key="today" value="0">
                             Hoje
                         </SelectItem>
-                        <SelectItem key="Ultimos14Dias" value="Ultimos14Dias">
+                        <SelectItem key="yesterday" value="1">
+                            Ontem
+                        </SelectItem>
+                        <SelectItem key="last_7d" value="7">
+                            Últimos 7 dias
+                        </SelectItem>
+                        <SelectItem key="last_14d" value="14">
                             Últimos 14 dias
+                        </SelectItem>
+                        <SelectItem key="this_month" value="31">
+                            Este Mês
+                        </SelectItem>
+                        <SelectItem key="last_month" value="60">
+                            Mês Anterior
+                        </SelectItem>
+                        <SelectItem key="maximum" value="36">
+                            Máximo
                         </SelectItem>
                     </Select>
                 </div>

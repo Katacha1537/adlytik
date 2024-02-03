@@ -29,7 +29,7 @@ export default function Projects() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [newProject, setNewProject] = useState(initialNewProject)
     const [projects, setProjects] = useState([])
-
+    console.log(projects)
     useEffect(() => {
         setProjects(ownedProjects)
     }, [ownedProjects])
@@ -91,10 +91,10 @@ export default function Projects() {
             </div>
             <div className="w-full mt-8 flex flex-wrap gap-4">
                 {
-                    projects.map((project, index) => (
+                    projects.map((project) => (
                         <ProjectsCard
-                            key={index}
-                            idProject={index}
+                            key={project.id}
+                            idProject={project.id}
                             nameProject={project.nameProject}
                             descriptionProject={project.descriptionProject}
                             tasksProject={`${project.tasksFinish || "0"}/${project.tasksTotal || "0"}`}

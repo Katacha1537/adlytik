@@ -110,11 +110,11 @@ export default function Tasks() {
 
     const { documents: tasksDocument } = useSubcollection("projects", projectId, "tasks")
     const { addSubDocument, deleteSubDocument } = useFirestore("projects")
-    const { document: userDocument } = useDocument("projects", projectId)
+    const { document: projectDocument } = useDocument("projects", projectId)
 
     useEffect(() => {
         setTasks(tasksDocument || tasks)
-        setUsers(userDocument?.membersProject || users)
+        setUsers(projectDocument?.membersProject || users)
     }, [tasksDocument])
 
 

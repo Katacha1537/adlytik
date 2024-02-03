@@ -2,20 +2,21 @@ import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { useTheme } from 'next-themes';
 
-const AreaChartDouble = ({ size }) => {
+const AreaChartDouble = ({ size, dataInsight, dataTypeOne, dataTypeTwo }) => {
     const { theme } = useTheme();
 
-    const dataSales = generateDayWiseTimeSeries(new Date("01 Jan 2024").getTime(), 7, {
-        min: 30,
-        max: 90
-    });
-
-    const dataLeads = generateDayWiseTimeSeries(new Date("01 Jan 2024").getTime(), 7, {
-        min: 20,
-        max: 80
-    });
-
     const isDarkMode = theme === 'dark';
+
+    // Filtra as datas e valores com base no dataTypeOne e dataTypeTwo
+    const filteredDataOne = dataInsight.map(item => ({
+        x: new Date(item.date).getTime(),
+        y: parseFloat(item[dataTypeOne]) || 0,
+    }));
+
+    const filteredDataTwo = dataInsight.map(item => ({
+        x: new Date(item.date).getTime(),
+        y: parseFloat(item[dataTypeTwo]) || 0,
+    }));
 
     const options = {
         chart: {
@@ -57,12 +58,13 @@ const AreaChartDouble = ({ size }) => {
         },
         series: [
             {
-                name: 'Vendas',
-                data: dataSales
+                name: dataTypeTwo,
+                data: filteredDataTwo
             },
             {
-                name: 'Leads',
-                data: dataLeads
+                name: dataTypeOne,
+                data: filteredDataOne
+
             }
         ],
         tooltip: {
@@ -79,6 +81,7 @@ const AreaChartDouble = ({ size }) => {
         yaxis: {
             min: 0,
             tickAmount: 4,
+            forceNiceScale: false, // Adicionada propriedade forceNiceScale
             labels: {
                 style: {
                     colors: isDarkMode ? "#ccc" : "#333",
@@ -86,21 +89,6 @@ const AreaChartDouble = ({ size }) => {
             },
         }
     };
-
-    function generateDayWiseTimeSeries(baseval, count, yrange) {
-        var i = 0;
-        var series = [];
-        while (i < count) {
-            var x = baseval;
-            var y =
-                Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-
-            series.push([x, y]);
-            baseval += 86400000;
-            i++;
-        }
-        return series;
-    }
 
     return (
         <div id="chart">

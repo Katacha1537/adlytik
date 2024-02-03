@@ -4,7 +4,7 @@ import FunnelChart from '../../../components/PROJECT/FunnelChart';
 import AreaChart from '../../../components/PROJECT/AreaChart';
 import TableDashboard from '../../../components/PROJECT/TableDashboard';
 import MapChart from '../../../components/PROJECT/MapChart';
-import GenderAgeChart from '../../../components/PROJECT/GenderAgeChart';
+import GenderAgeChart from '../../../components/PROJECT/AgeChart';
 import PlatformChart from '../../../components/PROJECT/PlatformChart';
 import AreaChartDouble from '../../../components/PROJECT/AreaChartDouble';
 

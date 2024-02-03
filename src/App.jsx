@@ -84,6 +84,9 @@ function AppContent() {
                     <Route path="*" element={<NoIntegrations />} />
                     <Route exact path="/integrations" element={<Integrations />} />
                     <Route exact path="/settings" element={<Settings />} />
+                    <Route exact path="/settings/profile" element={<Settings />} />
+                    <Route exact path="/settings/config" element={<Settings />} />
+                    <Route exact path="/settings/change-password" element={<Settings />} />
                   </>
                 )
           }

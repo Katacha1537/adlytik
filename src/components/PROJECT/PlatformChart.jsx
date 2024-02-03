@@ -115,7 +115,7 @@ const PlatformChart = () => {
     ];
 
     return (
-        <Card className="w-full sm:w-1/2 items-center mt-4 p-4">
+        <Card className="w-full sm:w-1/2 items-center  p-4">
             <CardHeader className="pb-0 pt-2 px-4 flex-col gap-6">
                 <h4 className="font-bold text-xl">Alcance e Resultados por Plataforma</h4>
             </CardHeader>
